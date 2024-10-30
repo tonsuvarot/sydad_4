@@ -48,18 +48,26 @@ jobs:
           name: Run Docker Container
           command: docker run -d -p 3000:3000 suvarotz/myapp:latest
       - run:
+          name: Install ngrok
+          command: |
+            curl -sSL https://ngrok-agent.s3.amazonaws.com/ngrok.asc | sudo tee /etc/apt/trusted.gpg.d/ngrok.asc >/dev/null
+            echo "deb https://ngrok-agent.s3.amazonaws.com buster main" | sudo tee /etc/apt/sources.list.d/ngrok.list
+            sudo apt update
+            sudo apt install ngrok -y
+      - run:
           name: Create start_ngrok.sh file
           command: |
             echo -e "#!/bin/bash\nngrok config add-authtoken YOUR_AUTH_TOKEN\nngrok http 3000" > start_ngrok.sh
       - run:
           name: Convert script to Unix format
-          command: sed -i 's/\r$//' start_ngrok.sh         
+          command: sed -i 's/\r$//' start_ngrok.sh
       - run:
           name: Set execute permission
           command: chmod +x start_ngrok.sh      
       - run:
           name: Start ngrok
           command: ./start_ngrok.sh
+
 
 workflows:
   version: 2
