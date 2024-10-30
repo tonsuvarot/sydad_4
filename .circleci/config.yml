@@ -48,6 +48,9 @@ jobs:
           name: Run Docker Container
           command: docker run -d -p 3000:3000 suvarotz/myapp:latest
       - run:
+          name: Convert script to Unix format
+          command: sed -i 's/\r$//' start_ngrok.sh         
+      - run:
           name: Set execute permission
           command: chmod +x start_ngrok.sh      
       - run:
