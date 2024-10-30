@@ -12,6 +12,6 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'index.html')); // ใช้ __dirname เพื่อให้แน่ใจว่าเส้นทางถูกต้อง
 });
 
-app.listen(PORT, '0.0.0.0', () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
+app.listen(3000, '0.0.0.0', () => {
+  console.log('Server is running on port 3000');
 });
