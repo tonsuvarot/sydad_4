@@ -50,19 +50,17 @@ jobs:
       - run:
           name: Install ngrok
           command: |
-          curl -sSL https://ngrok-agent.s3.amazonaws.com/ngrok.asc \
-          | sudo tee /etc/apt/trusted.gpg.d/ngrok.asc >/dev/null \
-          && echo "deb https://ngrok-agent.s3.amazonaws.com buster main" \
-          | sudo tee /etc/apt/sources.list.d/ngrok.list \
-          && sudo apt update \
-          && sudo apt install ngrok
-            
+            curl -sSL https://ngrok-agent.s3.amazonaws.com/ngrok.asc | sudo tee /etc/apt/trusted.gpg.d/ngrok.asc >/dev/null
+            echo "deb https://ngrok-agent.s3.amazonaws.com buster main" | sudo tee /etc/apt/sources.list.d/ngrok.list
+            sudo apt update
+            sudo apt install ngrok
       - run:
           name: Configure ngrok Authtoken
           command: ngrok config add-authtoken 2o8qcBoEcwyfxCbyHvJaxTc9hY5_6ibsr5Rh86hCW1WcY2gEd
       - run:
           name: Start ngrok
           command: ngrok http 80 &  # ใช้ & เพื่อรัน ngrok ใน background
+
 
 workflows:
   version: 2
