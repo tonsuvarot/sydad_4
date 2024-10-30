@@ -10,7 +10,6 @@ COPY package*.json ./
 # ติดตั้ง dependencies
 RUN npm install
 
-# คัดลอกโค้ดทั้งหมด
 COPY . .
 
 # สั่งรันแอปพลิเคชัน
