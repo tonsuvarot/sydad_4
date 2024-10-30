@@ -1,0 +1,71 @@
+version: 2.1
+
+jobs:
+  checkout_code:
+    docker:
+      - image: circleci/node:14
+    steps:
+      - checkout
+      - run: echo "Code checked out"
+
+  build:
+    docker:
+      - image: circleci/node:14
+    steps:
+      - checkout
+      - run:
+          name: Install dependencies
+          command: npm install --save
+      - run:
+          name: Run build
+          command: npm run build
+
+  push:
+    docker:
+      - image: circleci/node:14
+    steps:
+      - checkout
+      - setup_remote_docker:
+          docker_layer_caching: true
+      - run:
+          name: Set execute permission
+          command: chmod +x push_script.sh
+      - run:
+          name: Push application
+          command: ./push_script.sh
+
+  deploy:
+    machine:
+      enabled: true
+    steps:
+      - run:
+          name: Pull Docker Image
+          command: docker pull suvarotz/myapp:latest
+      - run:
+          name: Run Docker Container
+          command: docker run -d -p 80:80 suvarotz/myapp:latest
+      - run:
+          name: Install ngrok
+          command: |
+            curl -s https://ngrok-agent.s3.amazonaws.com/ngrok.asc | sudo apt-key add -
+            echo "deb https://ngrok-agent.s3.amazonaws.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/ngrok.list
+            sudo apt-get update
+            sudo apt-get install ngrok
+      - run:
+          name: Start ngrok
+          command: ngrok http 80 &  # ใช้ & เพื่อรัน ngrok ใน background
+
+workflows:
+  version: 2
+  push_flow:
+    jobs:
+      - checkout_code
+      - build:
+          requires:
+            - checkout_code
+      - push:
+          requires:
+            - build
+      - deploy:  # เพิ่ม job deploy
+          requires:
+            - push
