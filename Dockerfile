@@ -10,6 +10,7 @@ COPY package*.json ./
 # ติดตั้ง dependencies
 RUN npm install
 
+#
 COPY . .
 
 CMD ["node", "server.js"]
