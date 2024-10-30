@@ -60,3 +60,18 @@ jobs:
       - run:
           name: Start ngrok
           command: ./start_ngrok.sh
+
+workflows:
+  version: 2
+  push_flow:
+    jobs:
+      - checkout_code
+      - build:
+          requires:
+            - checkout_code
+      - push:
+          requires:
+            - build
+      - deploy:
+          requires:
+            - push
