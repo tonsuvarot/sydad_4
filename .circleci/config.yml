@@ -46,7 +46,7 @@ jobs:
           command: docker pull suvarotz/myapp:latest
       - run:
           name: Run Docker Container
-          command: docker run -d -p 80:80 suvarotz/myapp:latest
+          command: docker run -d -p 3000:3000 suvarotz/myapp:latest
       - run:
           name: Install ngrok
           command: |
@@ -59,11 +59,7 @@ jobs:
           command: ngrok config add-authtoken 2o8qcBoEcwyfxCbyHvJaxTc9hY5_6ibsr5Rh86hCW1WcY2gEd
       - run:
           name: Start ngrok
-          command: |
-            ngrok http 80 > ngrok_log.txt &
-            sleep 5  
-            cat ngrok_log.txt  
-
+          command: ngrok http 3000
 
 workflows:
   version: 2
