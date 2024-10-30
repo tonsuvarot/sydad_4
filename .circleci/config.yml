@@ -48,15 +48,11 @@ jobs:
           name: Run Docker Container
           command: docker run -d -p 3000:3000 suvarotz/myapp:latest
       - run:
-          name: Install ngrok
+          name: Start ngrok tunnel and capture URL
           command: |
-            curl -sSL https://ngrok-agent.s3.amazonaws.com/ngrok.asc | sudo tee /etc/apt/trusted.gpg.d/ngrok.asc >/dev/null
-            echo "deb https://ngrok-agent.s3.amazonaws.com buster main" | sudo tee /etc/apt/sources.list.d/ngrok.list
-            sudo apt update
-            sudo apt install ngrok
-      - run:
-          name: Configure ngrok Authtoken
-          command: ngrok config add-authtoken 2o8qcBoEcwyfxCbyHvJaxTc9hY5_6ibsr5Rh86hCW1WcY2gEd
+            ngrok_url=$(ngrok start -p 3000 2>&1 | grep -oE https://[[:alnum:]]+\.ngrok\.io)
+            echo "Application URL: $ngrok_url"
+      # Optional steps to store or share the ngrok_url
 
 workflows:
   version: 2
@@ -71,4 +67,4 @@ workflows:
             - build
       - deploy:
           requires:
-            - push  
+            - push
