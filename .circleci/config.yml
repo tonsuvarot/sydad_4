@@ -46,7 +46,7 @@ jobs:
           command: docker pull suvarotz/myapp:latest
       - run:
           name: Run Docker Container
-          command: docker run -d -p 40:40 suvarotz/myapp:latest
+          command: docker run -d -p 3000 suvarotz/myapp:latest
       - run:
           name: Install ngrok
           command: |
