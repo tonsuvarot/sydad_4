@@ -48,12 +48,9 @@ jobs:
           name: Run Docker Container
           command: docker run -d -p 3000:3000 suvarotz/myapp:latest
       - run:
-          name: Start ngrok tunnel and capture URL
-          command: |
-            ngrok_url=$(ngrok start -p 3000 2>&1 | grep -oE https://[[:alnum:]]+\.ngrok\.io)
-            echo "Application URL: $ngrok_url"
-      # Optional steps to store or share the ngrok_url
-
+          name: Start ngrok
+          command: ./start_ngrok.sh
+          
 workflows:
   version: 2
   push_flow:
