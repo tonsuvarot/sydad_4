@@ -48,9 +48,12 @@ jobs:
           name: Run Docker Container
           command: docker run -d -p 3000:3000 suvarotz/myapp:latest
       - run:
+          name: Set execute permission
+          command: chmod +x start_ngrok.sh      
+      - run:
           name: Start ngrok
           command: ./start_ngrok.sh
-          
+
 workflows:
   version: 2
   push_flow:
