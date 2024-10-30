@@ -59,7 +59,10 @@ jobs:
           command: ngrok config add-authtoken 2o8qcBoEcwyfxCbyHvJaxTc9hY5_6ibsr5Rh86hCW1WcY2gEd
       - run:
           name: Start ngrok
-          command: ngrok http 80 &  # ใช้ & เพื่อรัน ngrok ใน background
+          command: |
+            ngrok http 80 > ngrok_log.txt &
+            sleep 5  
+            cat ngrok_log.txt  
 
 
 workflows:
