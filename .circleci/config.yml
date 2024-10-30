@@ -46,12 +46,9 @@ jobs:
           command: docker run -d -p 80:80 suvarotz/myapp:latest
       - run:
           name: Install ngrok
-          command: |
-            curl -s https://ngrok-agent.s3.amazonaws.com/ngrok.asc | sudo apt-key add -
-            echo "deb https://ngrok-agent.s3.amazonaws.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/ngrok.list
-            sudo apt-get update
-            sudo apt-get install ngrok
-      - run:
+          command: choco install ngrok
+          ngrok config add-authtoken 2o8qcBoEcwyfxCbyHvJaxTc9hY5_6ibsr5Rh86hCW1WcY2gEd
+      - run:  
           name: Start ngrok
           command: ngrok http 80 &  # ใช้ & เพื่อรัน ngrok ใน background
 
