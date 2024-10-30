@@ -1,0 +1,15 @@
+{
+  "name": "my-project",
+  "version": "1.0.0",
+  "description": "This is a sample project",
+  "main": "server.js",
+  "scripts": {
+    "build": "echo 'Building project...'",
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.17.1" 
+  },
+  "author": "Your Name",
+  "license": "ISC"
+}
