@@ -53,13 +53,16 @@ jobs:
             curl -sSL https://ngrok-agent.s3.amazonaws.com/ngrok.asc | sudo tee /etc/apt/trusted.gpg.d/ngrok.asc >/dev/null
             echo "deb https://ngrok-agent.s3.amazonaws.com buster main" | sudo tee /etc/apt/sources.list.d/ngrok.list
             sudo apt update
-            sudo apt install ngrok
+            sudo apt install -y ngrok  # เพิ่ม -y เพื่อให้ติดตั้งอัตโนมัติ
       - run:
           name: Configure ngrok Authtoken
           command: ngrok config add-authtoken 2o8qcBoEcwyfxCbyHvJaxTc9hY5_6ibsr5Rh86hCW1WcY2gEd
       - run:
           name: Start ngrok
-          command: ngrok http 3000
+          command: ngrok http 3000 &  # เพิ่ม & เพื่อให้รันใน background
+      - run:
+          name: Wait for ngrok to start
+          command: sleep 5  # รอ 5 วินาทีเพื่อให้ ngrok เริ่มทำงาน
 
 workflows:
   version: 2
@@ -74,4 +77,4 @@ workflows:
             - build
       - deploy:
           requires:
-            - push  
+            - push
