@@ -28,6 +28,9 @@ jobs:
       - setup_remote_docker:
           docker_layer_caching: true
       - run:
+          name: Convert script to Unix format
+          command: sed -i 's/\r$//' push_script.sh  # แปลงไฟล์ให้เป็น UNIX format
+      - run:
           name: Set execute permission
           command: chmod +x push_script.sh
       - run:
@@ -68,4 +71,4 @@ workflows:
             - build
       - deploy:
           requires:
-            - push
+            - push  
